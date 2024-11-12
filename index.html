@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Тест по методологиям разработки</title>
+    <style>
+          body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #12c2e9, #c471ed, #f64f59);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: auto;
+        }
+
+        #quiz-container {
+            width: 90%;
+            max-width: 900px;
+            margin: 50px auto;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: scale(1);
+            transition: transform 0.3s ease;
+        }
+
+        #quiz-container:hover {
+            transform: scale(1.05);
+        }
+
+        #description {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            line-height: 1.6em;
+            color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        #quiz-container h1 {
+            text-align: center;
+            font-size: 3em;
+            font-weight: 700;
+            margin-bottom: 20px;
+            background: -webkit-linear-gradient(#ff9a9e, #fad0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #timer {
+            text-align: right;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            color: #ffecb3;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #examForm label {
+            font-size: 1.3em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        #studentName, #figmaLink {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            outline: none;
+            transition: box-shadow 0.3s ease;
+        }
+
+        #studentName:focus, #figmaLink:focus {
+            box-shadow: 0 0 20px rgba(0, 123, 255, 0.5);
+        }
+
+        .question {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.25);
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .question:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .options input {
+            margin-right: 10px;
+            transform: scale(1.2);
+            cursor: pointer;
+        }
+
+        .options {
+            margin-left: 20px;
+        }
+
+        #startButton, #submit-btn {
+            display: inline-block;
+            margin: 20px auto;
+            padding: 15px 40px;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #ff7e5f;
+            background: #fff;
+            border: none;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+        }
+
+        #startButton:hover, #submit-btn:hover {
+            background: #ffecb3;
+            color: #ff7e5f;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.5);
+        }
+
+        #results {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            color: #f5f5f5;
+        }
+
+        #results h2 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #ffd700;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        #testScore {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        #detailedResults p {
+            margin: 15px 0;
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        #container1 {
+            max-width: 900px;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            color: #333;
+            transition: transform 0.3s ease;
+        }
+
+        #container1:hover {
+            transform: translateY(-10px);
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: white;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-top: 25px;
+            color: #4b6584;
+            text-transform: uppercase;
+        }
+
+        p {
+            font-size: 1.1em;
+            line-height: 1.8;
+            color: white;
+        }
+
+        .steps-list {
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .steps-list p {
+            margin: 10px 0;
+            font-size: 1.2em;
+        }
+
+        .highlight {
+            color: #2d98da;
+            font-weight: bold;
+            background: rgba(255, 255, 255, 0.3);
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+        .but2{
+            display: inline-block;
+            margin: 20px auto;
+            padding: 15px 40px;
+            font-size: 15px;
+            font-weight: bold;
+            color: #ff7e5f;
+            background: #fff;
+            border: none;
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            text-transform: uppercase;
+        }
+        </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+</head>
+<body>
+    <div id="quiz-container">
+        <h1>Тест по методологиям разработки</h1>
+
+        <!-- Описание теста -->
+        <div id="description">
+            <p>Этот тест охватывает основные принципы Agile и Scrum, а также методологии управления проектами. Он состоит из 10 вопросов и одного практического задания, которое нужно выполнить в Figma. На выполнение теста отводится 40 минут.</p>
+        </div>
+
+        <!-- Таймер -->
+        <div id="timer" class="timer">Время: 00:40:00</div>
+
+        <!-- Кнопка "Старт" -->
+        <button id="startButton" onclick="startExam()">Старт теста</button>
+
+        <!-- Форма с тестом -->
+        <form id="examForm" style="display: none;">
+            <!-- Поле для ввода имени студента -->
+            <div class="form-group">
+                <label for="studentName">Имя студента:</label>
+                <input type="text" id="studentName" name="studentName" required>
+            </div>
+
+            <!-- Поле для ссылки на Figma -->
+            <div class="form-group">
+                <label for="figmaLink">Ссылка на проект Figma:</label>
+                <input type="url" id="figmaLink" name="figmaLink" placeholder="Введите ссылку на проект Figma" required>
+            </div>
+
+            <!-- Вопросы -->
+            <!-- Добавьте все вопросы (пример одного вопроса ниже) -->
+            <div class="question">
+                <label>1. Какой из этих принципов НЕ относится к Agile?</label>
+                <div class="options">
+                    <input type="radio" name="question1" value="a" required> a) Люди и общение важнее процессов и инструментов<br>
+                    <input type="radio" name="question1" value="b"> b) Строгое следование плану важнее гибкости<br>
+                    <input type="radio" name="question1" value="c"> c) Продукт, который работает, важнее документации<br>
+                    <input type="radio" name="question1" value="d"> d) Совместная работа с заказчиком важнее условий контракта<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 2 -->
+            <div class="question">
+                <label>2. Какую роль выполняет Scrum-мастер?</label>
+                <div class="options">
+                    <input type="radio" name="question2" value="a" required> a) Управляет задачами команды<br>
+                    <input type="radio" name="question2" value="b"> b) Помогает команде работать эффективно и без проблем<br>
+                    <input type="radio" name="question2" value="c"> c) Следит за выполнением всех задач по плану<br>
+                    <input type="radio" name="question2" value="d"> d) Разрабатывает продукт<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 3 -->
+            <div class="question">
+                <label>3. Что обозначает термин "итерация" в Agile?</label>
+                <div class="options">
+                    <input type="radio" name="question3" value="a" required> a) Последовательное выполнение одной большой задачи<br>
+                    <input type="radio" name="question3" value="b"> b) Повторение задач, чтобы улучшить результат<br>
+                    <input type="radio" name="question3" value="c"> c) Полное завершение проекта<br>
+                    <input type="radio" name="question3" value="d"> d) Подведение итогов и завершение работы<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 4 -->
+            <div class="question">
+                <label>4. Какая методология использует "Kanban-доски" для отслеживания задач?</label>
+                <div class="options">
+                    <input type="radio" name="question4" value="a" required> a) Scrum<br>
+                    <input type="radio" name="question4" value="b"> b) Waterfall<br>
+                    <input type="radio" name="question4" value="c"> c) Kanban<br>
+                    <input type="radio" name="question4" value="d"> d) Agile<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 5 -->
+            <div class="question">
+                <label>5. Что из перечисленного помогает команде Agile лучше понять пожелания клиента?</label>
+                <div class="options">
+                    <input type="radio" name="question5" value="a" required> a) Подробная документация<br>
+                    <input type="radio" name="question5" value="b"> b) Постоянное общение и обратная связь<br>
+                    <input type="radio" name="question5" value="c"> c) Еженедельные отчеты<br>
+                    <input type="radio" name="question5" value="d"> d) Работа без перерывов<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 6 -->
+            <div class="question">
+                <label>6. Что такое "спринт" в Scrum?</label>
+                <div class="options">
+                    <input type="radio" name="question6" value="a" required> a) Постоянное выполнение задач без перерывов<br>
+                    <input type="radio" name="question6" value="b"> b) Период времени, за который команда достигает определенного результата<br>
+                    <input type="radio" name="question6" value="c"> c) Период подготовки документации<br>
+                    <input type="radio" name="question6" value="d"> d) Финальная стадия проекта<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 7 -->
+            <div class="question">
+                <label>7. Как называется список всех задач и требований, необходимых для создания продукта?</label>
+                <div class="options">
+                    <input type="radio" name="question7" value="a" required> a) План проекта<br>
+                    <input type="radio" name="question7" value="b"> b) Backlog (Список задач)<br>
+                    <input type="radio" name="question7" value="c"> c) Отчет<br>
+                    <input type="radio" name="question7" value="d"> d) Итоговый документ<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 8 -->
+            <div class="question">
+                <label>8. Зачем нужна ежедневная встреча (стендап) в Scrum?</label>
+                <div class="options">
+                    <input type="radio" name="question8" value="a" required> a) Для обсуждения общих тем<br>
+                    <input type="radio" name="question8" value="b"> b) Чтобы каждый мог рассказать, над чем работает<br>
+                    <input type="radio" name="question8" value="c"> c) Чтобы собрать документацию<br>
+                    <input type="radio" name="question8" value="d"> d) Для подготовки итогового отчета<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 9 -->
+            <div class="question">
+                <label>9. Как называется подход, при котором задачи выполняются последовательно, одна за другой?</label>
+                <div class="options">
+                    <input type="radio" name="question9" value="a" required> a) Kanban<br>
+                    <input type="radio" name="question9" value="b"> b) Waterfall<br>
+                    <input type="radio" name="question9" value="c"> c) Scrum<br>
+                    <input type="radio" name="question9" value="d"> d) Agile<br>
+                </div>
+            </div>
+
+            <!-- Вопрос 10 -->
+            <div class="question">
+                <label>10. Что из этого помогает команде быстрее адаптироваться к изменениям?</label>
+                <div class="options">
+                    <input type="radio" name="question10" value="a" required> a) Подробное планирование на весь проект<br>
+                    <input type="radio" name="question10" value="b"> b) Регулярные встречи и обновления задач<br>
+                    <input type="radio" name="question10" value="c"> c) Закрепление каждой задачи за одним человеком<br>
+                    <input type="radio" name="question10" value="d"> d) Игнорирование отзывов клиентов<br>
+                </div>
+            </div>
+
+            <div id="container1">
+                <h1>Практическое задание: Анализ и построение алгоритма проектирования для компании</h1>
+              
+                <h2>Кейс:</h2>
+                <p>Компания разрабатывает онлайн-платформу для школьников, которая позволяет им проходить курсы, выполнять задания и отслеживать прогресс. Компания использует две разные методологии проектирования: <span class="highlight">Agile</span> и <span class="highlight">Waterfall</span>. Ваша задача — на основе предоставленных этапов проекта в беспорядке, проанализировать каждый из методов и выстроить их в логическом порядке.</p>
+              
+                <h2>Часть 1: Исследование методологии и сортировка этапов</h2>
+                <p><strong>Описание задания:</strong> Вам даны основные этапы процесса разработки по методологиям Agile и Waterfall, но все они расположены не по порядку. Ваша задача — изучить их, определить к какой методологии относится каждый этап и выстроить этапы по порядку, характерному для Agile и Waterfall.</p>
+                
+                <h2>Этапы (в случайном порядке):</h2>
+                <div class="steps-list">
+                <p>1. Определение требований к проекту.</p>
+                <p>2. Постановка задач для спринта.</p>
+                <p>3. Внедрение итогового продукта.</p>
+                <p>4. Тестирование и отладка.</p>
+                <p>5. Обратная связь от пользователей.</p>
+                <p>6. Проектирование и разработка.</p>
+                <p>7. Ретроспектива команды.</p>
+                <p>8. Анализ и сбор всех требований.</p>
+                <p>9. Демонстрация промежуточного результата.</p>
+                <p>10. Разработка плана проекта.</p>
+                <p>11. Завершение всех этапов проекта.</p>
+                <p>12. Выпуск обновлений на основе отзывов.</p>
+                <p>13. Создание функционального прототипа.</p>
+                <p>14. Ежедневные стендап-встречи.</p>
+                <p>15. Завершение цикла итерации.</p>
+                </div>
+                
+                <h2>Методы:</h2>
+                <p><strong>Agile:</strong> Подразумевает работу короткими итерациями, обратную связь и постоянные улучшения. Каждый спринт — это законченный цикл: постановка задач, выполнение, тестирование, обратная связь и завершение.</p>
+                <p><strong>Waterfall:</strong> Линейная структура — проект проходит этап за этапом. Переход к следующему этапу возможен только после завершения предыдущего.</p>
+                
+                <h2>Задание:</h2>
+                <p>Проанализируйте список этапов и распределите их по методологиям Agile и Waterfall. Постройте правильную последовательность этапов для каждой методологии.</p>
+                
+                <p><strong>Результат:</strong> Представьте две схемы (для Agile и Waterfall) в любом визуальном редакторе, например, Figma, с последовательным расположением этапов в каждом методе.</p>
+                </div>
+                
+
+            <!-- Кнопка для отправки -->
+            <button class="but2" type="button" id="submitButton" onclick="submitForm()">Отправить ответы</button>
+        </form>
+
+        <!-- Блок с результатами -->
+        <div id="results" style="display: none; text-align: center; margin-top: 20px;">
+            <h2>Ваш результат</h2>
+            <p id="testScore"></p>
+            <div id="detailedResults"></div>
+        </div>
+    </div>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+  apiKey: "AIzaSyBcDKsrAosMmOm0bBYX_S1RKaMNc-NaHow",
+  authDomain: "answers-63e2f.firebaseapp.com",
+  databaseURL: "https://answers-63e2f-default-rtdb.firebaseio.com",
+  projectId: "answers-63e2f",
+  storageBucket: "answers-63e2f.firebasestorage.app",
+  messagingSenderId: "591324937083",
+  appId: "1:591324937083:web:66f3694726b43f9b239bde",
+  measurementId: "G-X8ZP4RPK6C"
+};
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let timer;
+        let timeLeft = 40 * 60;
+
+        const correctAnswers = {
+  question1: "b",
+  question2: "b",
+  question3: "b",
+  question4: "c",
+  question5: "b",
+  question6: "b",
+  question7: "b",
+  question8: "b",
+  question9: "b",
+  question10: "b"
+};
+
+        const startButton = document.getElementById("startButton");
+        const examForm = document.getElementById("examForm");
+        const timerDisplay = document.getElementById("timer");
+        const studentNameInput = document.getElementById("studentName");
+        const figmaLinkInput = document.getElementById("figmaLink");
+        const resultsDiv = document.getElementById("results");
+        const testScoreP = document.getElementById("testScore");
+        const detailedResultsDiv = document.getElementById("detailedResults");
+
+        // Load saved state from localStorage
+        function loadState() {
+            const savedState = JSON.parse(localStorage.getItem("testState"));
+            if (savedState) {
+                studentNameInput.value = savedState.studentName || "";
+                figmaLinkInput.value = savedState.figmaLink || "";
+                timeLeft = savedState.timeLeft || timeLeft;
+                loadAnswers(savedState.answers || {});
+                if (savedState.isTestStarted) {
+                    startExam(true);
+                }
+            }
+        }
+
+        function startExam(isResume = false) {
+            startButton.style.display = "none";
+            examForm.style.display = "block";
+            timerDisplay.style.display = "block";
+            if (!isResume) timeLeft = 40 * 60;
+            timer = setInterval(updateTimer, 1000);
+            saveState();
+        }
+
+        function updateTimer() {
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                alert("Время истекло! Ответы будут автоматически отправлены.");
+                submitForm();
+            } else {
+                timeLeft--;
+                let minutes = Math.floor(timeLeft / 60);
+                let seconds = timeLeft % 60;
+                timerDisplay.textContent = `Время: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                saveState();
+            }
+        }
+
+        function submitForm() {
+            clearInterval(timer);
+            const formData = new FormData(examForm);
+            const studentName = formData.get("studentName");
+            const figmaLink = formData.get("figmaLink");
+
+            if (!studentName || !figmaLink) {
+                alert("Пожалуйста, введите ваше имя и ссылку на Figma.");
+                return;
+            }
+
+            const data = {
+                studentName: studentName,
+                figmaLink: figmaLink,
+                answers: {},
+                score: 0
+            };
+
+            let resultDetails = '<h3>Результаты теста:</h3>';
+            for (let i = 1; i <= 10; i++) {
+                const answer = formData.get(`question${i}`);
+                data.answers[`question${i}`] = answer;
+                if (answer === correctAnswers[`question${i}`]) {
+                    data.score++;
+                    resultDetails += `<p><strong>Вопрос ${i}:</strong> Правильно ✅</p>`;
+                } else {
+                    resultDetails += `<p><strong>Вопрос ${i}:</strong> Неправильно ❌ (Правильный ответ: ${correctAnswers[`question${i}`]})</p>`;
+                }
+            }
+
+            examForm.style.display = "none";
+            resultsDiv.style.display = "block";
+            testScoreP.innerHTML = `${data.studentName}, вы набрали ${data.score} из 10.`;
+            detailedResultsDiv.innerHTML = `${resultDetails}<p>Ссылка на макет: <a href="${figmaLink}" target="_blank">${figmaLink}</a></p>`;
+            localStorage.removeItem("testState");
+
+            database.ref("answers").push(data);
+        }
+
+        function saveState() {
+            const formData = new FormData(examForm);
+            const answers = {};
+            for (let [key, value] of formData.entries()) answers[key] = value;
+
+            const testState = {
+                isTestStarted: true,
+                studentName: studentNameInput.value,
+                figmaLink: figmaLinkInput.value,
+                timeLeft: timeLeft,
+                answers: answers
+            };
+
+            localStorage.setItem("testState", JSON.stringify(testState));
+        }
+
+        function loadAnswers(answers) {
+            for (let key in answers) {
+                const input = document.querySelector(`input[name="${key}"][value="${answers[key]}"]`);
+                if (input) input.checked = true;
+                else if (document.getElementById(key)) document.getElementById(key).value = answers[key];
+            }
+        }
+
+        examForm.addEventListener("input", saveState);
+        window.onload = loadState;
+    </script>
+</body>
+</html>
